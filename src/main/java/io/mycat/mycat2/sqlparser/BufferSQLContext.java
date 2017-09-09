@@ -3,7 +3,7 @@ package io.mycat.mycat2.sqlparser;
 import io.mycat.mycat2.sqlparser.SQLParseUtils.HashArray;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.ByteArrayInterface;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by Fanfan on 2017/3/21.
@@ -96,6 +96,64 @@ public class BufferSQLContext {
     private int preHashArrayPos = 0;
     private int preTableResultPos = 0;
     private int hashArrayRealSQLOffset = 0;//记录真实sql开始偏移
+
+    ///////////////////////////
+    public  int                 getSelectBodyStart() {
+        return selectBodyStart;
+    }public void                setSelectBodyStart(int selectBodyStart) {
+        this.selectBodyStart = selectBodyStart;
+    }public int                 getSelectBodyEnd() {
+        return selectBodyEnd;
+    }public void                setSelectBodyEnd(int selectBodyEnd) {
+        this.selectBodyEnd = selectBodyEnd;
+    }public int                 getSelectItemStart() {
+        return selectItemStart;
+    }public void                setSelectItemStart(int selectItemStart) {
+        this.selectItemStart = selectItemStart;
+    }public int                 getSelectItemEnd() {
+        return selectItemEnd;
+    }public void                setSelectItemEnd(int selectItemEnd) {
+        this.selectItemEnd = selectItemEnd;
+    }public int                 getWhereStart() {
+        return whereStart;
+    }public void                setWhereStart(int whereStart) {
+        this.whereStart = whereStart;
+    }public int                 getWhereEnd() {
+        return whereEnd;
+    }public void                setWhereEnd(int whereEnd) {
+        this.whereEnd = whereEnd;
+    }public Stack<String>       getOperandStack() {
+        return operandStack;
+    }public void                setOperandStack(Stack<String> operandStack) {
+        this.operandStack = operandStack;
+    }
+
+    public List<String> getColomnMap() {
+        return colomnMap;
+    }
+
+    public  int selectBodyStart;
+    public  int selectBodyEnd;
+    public  int selectItemStart;
+    public  int selectItemEnd;
+    public  int whereStart;
+    public  int whereEnd;
+    Stack<String> operandStack=new Stack<>();
+    List<String> colomnMap=new ArrayList<>();
+    String nodeName="";
+
+    public Map<String,   String> getAsMap() {
+        return asMap;
+    }
+
+    public void setAsMap(Map<String, String> asMap) {
+        this.asMap = asMap;
+    }
+
+    Map<String,  String > asMap=new HashMap<>();
+
+
+
 
     public BufferSQLContext() {
         tblResult = new short[tblResultArraySize];
@@ -340,5 +398,13 @@ public class BufferSQLContext {
 
     public HashArray getHashArray() {
         return hashArray;
+    }
+
+    public String getNodeName() {
+        return nodeName;
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
     }
 }

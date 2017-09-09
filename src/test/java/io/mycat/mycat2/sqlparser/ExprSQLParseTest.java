@@ -396,7 +396,7 @@ public class ExprSQLParseTest extends TestCase {
     }
     @Test
     public void testExpr8() throws Exception {
-        String t = "1 AND 2";//
+        String t = "1 AND 2 AND 3";//
         test(t);
     }
     @Test

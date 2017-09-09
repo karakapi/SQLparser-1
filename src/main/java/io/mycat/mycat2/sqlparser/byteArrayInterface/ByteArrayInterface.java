@@ -1,5 +1,7 @@
 package io.mycat.mycat2.sqlparser.byteArrayInterface;
 
+import io.mycat.mycat2.sqlparser.SQLParseUtils.HashArray;
+
 /**
  * Created by jamie on 2017/8/29.
  */
@@ -18,4 +20,10 @@ public interface ByteArrayInterface {
         String res=new String(bytes);
         return res;
     }
+
+    default String getString(int pos, HashArray hashArray) {
+        String res = this.getString(hashArray.getPos(pos), hashArray.getSize(pos));
+        return res;
+    }
+
 }

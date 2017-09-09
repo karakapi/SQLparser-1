@@ -10,7 +10,7 @@ import io.mycat.mycat2.sqlparser.byteArrayInterface.TokenizerUtil;
 /**
  * Created by jamie on 2017/9/5.
  */
-public class ExprSQLParser {
+public class ExprSQLExer {
     /**
      * expr:
      * expr OR expr
@@ -44,9 +44,7 @@ public class ExprSQLParser {
         } else if (TokenHash.AND == longHash) {
             TokenizerUtil.debug(()->"expr AND expr");
             ++pos;
-            pos= pickExpr(pos, arrayCount, context, hashArray, sql);
-            context.getOperandStack().push("指令:AND");
-            return pos;
+            return pickExpr(pos, arrayCount, context, hashArray, sql);
         } else if (TokenHash.NOT == longHash) {
             TokenizerUtil.debug(()->"expr NOT expr");
             ++pos;
@@ -124,7 +122,6 @@ public class ExprSQLParser {
             }
             if (ExprSQLParserHelper.isComparisonOperatorByType(type)) {
                 pos = ExprSQLParserHelper.pickComparisonOperator(pos, arrayCount, context, hashArray, sql);
-               //todo 为了写demo,得hack一下
                 longHash = hashArray.getHash(pos);
                 TokenizerUtil.debug(pos, context);
                 if (longHash == TokenHash.ALL) {
@@ -135,9 +132,7 @@ public class ExprSQLParser {
                     ++pos;
                 } else {
                     //todo boolean_primary comparison_operator predicate
-                    pos= pickPredicate(pos, arrayCount, context, hashArray, sql);
-                    context.getOperandStack().push("指令:=");
-                    return pos;
+                    return pickPredicate(pos, arrayCount, context, hashArray, sql);
                 }
                 int type3 = hashArray.getType(pos);
                 if (Tokenizer2.LEFT_PARENTHESES == type3) {
@@ -200,7 +195,7 @@ public class ExprSQLParser {
                 }
                 return pos;
             } else {
-                TokenizerUtil.debug(()->"");
+                TokenizerUtil.debug(()->"IN (expr [, expr] ...)");
                 ++pos;
                 pos = pickExpr(pos, arrayCount, context, hashArray, sql);
                 int type = hashArray.getType(pos);
@@ -211,7 +206,6 @@ public class ExprSQLParser {
                 }
                 //todo bit_expr [NOT] IN (expr [, expr] ...)
                 if (type==Tokenizer2.RIGHT_PARENTHESES){
-                    context.getOperandStack().push("指令:IN");
                     pos++;
                     return pos;
                 }else {
@@ -402,12 +396,9 @@ public class ExprSQLParser {
             colomn = sql.getString(pos, hashArray);
             String value=tableName+"."+colomn;
             context.getColomnMap().add(value);
-            context.getOperandStack().push(value);
             TokenizerUtil.debug(() -> ".");
             TokenizerUtil.debug(pos, context);
             ++pos;
-        }else {
-            context.getOperandStack().push(colomn);
         }
         return pos;
     }

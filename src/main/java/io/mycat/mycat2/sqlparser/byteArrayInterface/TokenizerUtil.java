@@ -143,8 +143,7 @@ public class TokenizerUtil {
     }
     public static void debug(int pos,BufferSQLContext context) {
         if (LOGGER.isDebugEnabled()) {
-            HashArray hashArray=context.getHashArray();
-            LOGGER.debug(context.getBuffer().getString(hashArray.getPos(pos), hashArray.getSize(pos)));
+            LOGGER.debug(context.getBuffer().getString(pos,context.getHashArray()));
         }
     }
     public static void debugError(int pos,BufferSQLContext context) {
