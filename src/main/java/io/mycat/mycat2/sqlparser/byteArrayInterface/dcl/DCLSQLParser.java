@@ -143,7 +143,7 @@ public class DCLSQLParser {
 
     /**
      * 前置条件
-     * if (TokenHash.TO==longHash){
+     * if (TokenHash.TO==LONG_HASH){
      * <p>
      * }
      * TO user [auth_option] [, user [auth_option]] ...

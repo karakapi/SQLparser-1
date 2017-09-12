@@ -60,7 +60,6 @@ public class SelectStatementParser {
             ++pos;
         }
         ///
-        context.selectItemStart = hashArray.getPos(pos);
         pos = pickSelectExpr(pos, arrayCount, context, hashArray, sql);
         int type = hashArray.getType(pos);
         while (Tokenizer2.COMMA == type) {
@@ -68,21 +67,18 @@ public class SelectStatementParser {
             pos = pickSelectExpr(pos, arrayCount, context, hashArray, sql);
             type = hashArray.getType(pos);
         }
-        context.selectItemEnd =hashArray.getPos(pos);
         longHash = hashArray.getHash(pos);
         if (TokenHash.FROM == longHash) {
             ++pos;
-            pos = JoinSQLParse.pickTableReferences(pos, arrayCount, context, hashArray, sql);
+            pos=JoinSQLParse.pickTableReferences(pos, arrayCount, context, hashArray, sql);
         }
         if (TokenHash.PARTITION == longHash) {
             ++pos;
         }
-        context.whereStart = hashArray.getPos(pos);
         if (TokenHash.WHERE == longHash) {
             ++pos;
-            pos = ExprSQLParser.pickExpr(pos, arrayCount, context, hashArray, sql);
+            ExprSQLParser.pickExpr(pos, arrayCount, context, hashArray, sql);
         }
-        context.whereEnd = hashArray.getPos(pos);
         if (TokenHash.HAVING == longHash) {
             ++pos;
         }
@@ -103,28 +99,20 @@ public class SelectStatementParser {
 
     public static int pickSelectExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
         long longHash = hashArray.getHash(pos);
-        String tableName = "Default";
-        String colomn = sql.getString(pos, hashArray);
         TokenizerUtil.debug(pos, context);
-        int start = pos;
         ++pos;
         int type = hashArray.getType(pos);
-        if (Tokenizer2.DOT == type) {
+        if (Tokenizer2.DOT==type){
             ++pos;
-            tableName = colomn;
-            colomn = sql.getString(pos, hashArray);
-            TokenizerUtil.debug(() -> ".");
+            TokenizerUtil.debug(()->".");
             TokenizerUtil.debug(pos, context);
             ++pos;
         }
-        String value=tableName+"."+colomn;
-        context.getColomnMap().add(value);
         //[[AS] alias] [index_hint]
         longHash = hashArray.getHash(pos);
-        if (TokenHash.AS == longHash) {
+        if (TokenHash.AS==longHash){
             ++pos;
             TokenizerUtil.debug(pos, context);
-            context.getAsMap().put(sql.getString(pos, hashArray), value);
             ++pos;
         }
         return pos;

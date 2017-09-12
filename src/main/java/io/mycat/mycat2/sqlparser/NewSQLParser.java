@@ -587,7 +587,7 @@ public class NewSQLParser {
         NewSQLContext context = new NewSQLContext();
         //parser.init();
 //        byte[] src = "SELECT a FROM ab             , ee.ff AS f,(SELECT a FROM `schema_bb`.`tbl_bb`,(SELECT a FROM ccc AS c, `dddd`));".getBytes(StandardCharsets.UTF_8);//20个token
-//        byte[] src = "INSERT `schema`.`tbl_A` (`name`) VALUES ('kaiz');".getBytes(StandardCharsets.UTF_8);
+//        byte[] src = "INSERT `schema_tag`.`tbl_A` (`name`) VALUES ('kaiz');".getBytes(StandardCharsets.UTF_8);
 //        byte[] src = ("select * from tbl_A, -- 单行注释\n" +
 //                "tbl_B b, #另一种单行注释\n" +
 //                "/*\n" +  //69

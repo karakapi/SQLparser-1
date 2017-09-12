@@ -137,7 +137,7 @@ public class SQLParserTest extends TestCase {
 
     @Test
     public void testNormalInsert2() throws Exception {
-        String sql = "INSERT `schema`.`tbl_A` (`name`) VALUES ('kaiz');";
+        String sql = "INSERT `schema_tag`.`tbl_A` (`name`) VALUES ('kaiz');";
         parser.parse(sql.getBytes(), context);
         assertEquals(NewSQLContext.INSERT_SQL, context.getSQLType());
         assertEquals("tbl_A", context.getTableName(0));
@@ -337,7 +337,7 @@ public class SQLParserTest extends TestCase {
 
     @Test
     public void testAnnotationSchema() throws Exception {
-        String sql = "/*!MyCAT:schema=testDB*/select * from tbl_A where id=1;";
+        String sql = "/*!MyCAT:schema_tag=testDB*/select * from tbl_A where id=1;";
         parser.parse(sql.getBytes(), context);
         assertEquals(NewSQLContext.SELECT_SQL, context.getSQLType());
         assertEquals("tbl_A", context.getTableName(0));

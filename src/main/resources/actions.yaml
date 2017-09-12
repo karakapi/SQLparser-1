@@ -1,0 +1,4 @@
+actions:
+      - monitorSQL: io.mycat.sqlanntion.MonintorSQL
+      - cacheResult: io.mycat.sqlanntion.CacheResult
+      - sqlCach: io.mycat.sqlanntion.SQLCach

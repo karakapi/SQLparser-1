@@ -36,7 +36,6 @@ public class ExprSQLParserHelper {
         }
     }
 
-
     /**
      * comparison_operator: =
      * | >=
@@ -90,7 +89,6 @@ public class ExprSQLParserHelper {
         }
         return pos;
     }
-
 
 
     public static boolean isTimeUnit(long value) {

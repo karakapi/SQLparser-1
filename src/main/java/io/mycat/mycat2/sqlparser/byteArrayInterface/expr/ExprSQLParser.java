@@ -24,9 +24,10 @@ public class ExprSQLParser {
      * | boolean_primary
      */
     public static int pickExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
+      int start=  pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
         int type = hashArray.getType(pos);
         long longHash = hashArray.getHash(pos);
+        int op;
         if (Tokenizer2.OR == type) {
             //todo 如果词法分析改变了,|| 变为一个关键词,这里得改
             ++pos;
@@ -44,9 +45,7 @@ public class ExprSQLParser {
         } else if (TokenHash.AND == longHash) {
             TokenizerUtil.debug(()->"expr AND expr");
             ++pos;
-            pos= pickExpr(pos, arrayCount, context, hashArray, sql);
-            context.getOperandStack().push("指令:AND");
-            return pos;
+            return pickExpr(pos, arrayCount, context, hashArray, sql);
         } else if (TokenHash.NOT == longHash) {
             TokenizerUtil.debug(()->"expr NOT expr");
             ++pos;
@@ -93,7 +92,7 @@ public class ExprSQLParser {
      * | predicate
      */
     public static int pickBooleanPrimary(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickPredicate(pos, arrayCount, context, hashArray, sql);
+        int start=  pos = pickPredicate(pos, arrayCount, context, hashArray, sql);
         TokenizerUtil.debug(pos, context);
         long longHash = hashArray.getHash(pos);
         if (TokenHash.IS == longHash) {
@@ -124,7 +123,6 @@ public class ExprSQLParser {
             }
             if (ExprSQLParserHelper.isComparisonOperatorByType(type)) {
                 pos = ExprSQLParserHelper.pickComparisonOperator(pos, arrayCount, context, hashArray, sql);
-               //todo 为了写demo,得hack一下
                 longHash = hashArray.getHash(pos);
                 TokenizerUtil.debug(pos, context);
                 if (longHash == TokenHash.ALL) {
@@ -135,9 +133,7 @@ public class ExprSQLParser {
                     ++pos;
                 } else {
                     //todo boolean_primary comparison_operator predicate
-                    pos= pickPredicate(pos, arrayCount, context, hashArray, sql);
-                    context.getOperandStack().push("指令:=");
-                    return pos;
+                    return pickPredicate(pos, arrayCount, context, hashArray, sql);
                 }
                 int type3 = hashArray.getType(pos);
                 if (Tokenizer2.LEFT_PARENTHESES == type3) {
@@ -167,7 +163,7 @@ public class ExprSQLParser {
      */
 
     public static int pickPredicate(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickBitExpr(pos, arrayCount, context, hashArray, sql);
+        int start=  pos  = pickBitExpr(pos, arrayCount, context, hashArray, sql);
         TokenizerUtil.debug(pos, context);
         long longHash = hashArray.getHash(pos);
 //        if (Tokenizer2.RIGHT_PARENTHESES==hashArray.getType(pos)){
@@ -200,7 +196,7 @@ public class ExprSQLParser {
                 }
                 return pos;
             } else {
-                TokenizerUtil.debug(()->"");
+                TokenizerUtil.debug(()->"IN (expr [, expr] ...)");
                 ++pos;
                 pos = pickExpr(pos, arrayCount, context, hashArray, sql);
                 int type = hashArray.getType(pos);
@@ -211,7 +207,6 @@ public class ExprSQLParser {
                 }
                 //todo bit_expr [NOT] IN (expr [, expr] ...)
                 if (type==Tokenizer2.RIGHT_PARENTHESES){
-                    context.getOperandStack().push("指令:IN");
                     pos++;
                     return pos;
                 }else {
@@ -270,7 +265,7 @@ public class ExprSQLParser {
      * | simple_expr
      */
     public static int pickBitExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickSimpleExpr(pos, arrayCount, context, hashArray, sql);
+        int start=   pos = pickSimpleExpr(pos, arrayCount, context, hashArray, sql);
         int type = hashArray.getType(pos);
         switch (type) {
             case Tokenizer2.OR: {
@@ -377,37 +372,12 @@ public class ExprSQLParser {
     }
 
     public static int pickIdentifierExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-//int start=pos;
-//        TokenizerUtil.debug(pos, context);
-//        ++pos;
-//        int type=hashArray.getType(pos);
-//        if (Tokenizer2.DOT==type){
-//         //   String tableName = sql.getString(pos,hashArray);
-//            ++pos;
-//           // String colomn = sql.getString(pos,hashArray);
-//         //   context.getColomnMap().put(tableName, colomn);
-//            TokenizerUtil.debug(pos, context);
-//            ++pos;
-//        }
-        long longHash = hashArray.getHash(pos);
-        String tableName = "Default";
-        String colomn = sql.getString(pos, hashArray);
         TokenizerUtil.debug(pos, context);
-        int start = pos;
         ++pos;
-        int type = hashArray.getType(pos);
-        if (Tokenizer2.DOT == type) {
+        int type=hashArray.getType(pos);
+        if (Tokenizer2.DOT==type){
             ++pos;
-            tableName = colomn;
-            colomn = sql.getString(pos, hashArray);
-            String value=tableName+"."+colomn;
-            context.getColomnMap().add(value);
-            context.getOperandStack().push(value);
-            TokenizerUtil.debug(() -> ".");
             TokenizerUtil.debug(pos, context);
-            ++pos;
-        }else {
-            context.getOperandStack().push(colomn);
         }
         return pos;
     }
@@ -704,8 +674,8 @@ public class ExprSQLParser {
 
     //
 //    public static boolean isWhen(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-//        long longHash = hashArray.getHash(pos);
-//        if (longHash == TokenHash.WHEN) {
+//        long LONG_HASH = hashArray.getHash(pos);
+//        if (LONG_HASH == TokenHash.WHEN) {
 //            return true;
 //        }
 //        return false;

@@ -26,4 +26,5 @@ public interface ByteArrayInterface {
         return res;
     }
 
+
 }

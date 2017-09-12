@@ -1,0 +1,57 @@
+package io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation;
+
+import io.mycat.mycat2.sqlparser.BufferSQLContext;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Created by jamie on 2017/9/5.
+ */
+public class DynamicAnnotationRuntime {
+    Map<String, Set<String>> map ;//描述条件(包含?)之间的包含关系
+    Map<Integer, String> int2str ;//id与条件
+    Map<String, Integer> str2Int ;//条件与id
+
+    public DynamicAnnotationRuntime(Map<String, Set<String>> map, Map<Integer, String> int2str, Map<String, Integer> str2Int) {
+        this.map = map;
+        this.int2str = int2str;
+        this.str2Int = str2Int;
+    }
+
+    public Map<String, Set<String>> getMap() {
+        return map;
+    }
+    public void printCallBackInfo(BufferSQLContext c) {
+        int[] r= c.getDynamicAnnotationResultList();
+        int size=c.getDynamicAnnotationResultIndex();
+        for (int i = 0; i < size; i++) {
+          Set<String> strings=  map.get(int2str.get(r[i]));
+          for (String it:strings){
+              System.out.println("配对:"+it);
+          }
+        }
+        c.clearDynamicAnnotationResultList();
+    }
+
+    public void setMap(Map<String, Set<String>> map) {
+        this.map = map;
+    }
+
+    public Map<Integer, String> getInt2str() {
+        return int2str;
+    }
+
+    public void setInt2str(Map<Integer, String> int2str) {
+        this.int2str = int2str;
+    }
+
+    public Map<String, Integer> getStr2Int() {
+        return str2Int;
+    }
+
+    public void setStr2Int(Map<String, Integer> str2Int) {
+        this.str2Int = str2Int;
+    }
+}

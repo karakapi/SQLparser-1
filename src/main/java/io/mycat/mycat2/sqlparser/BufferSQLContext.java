@@ -2,8 +2,11 @@ package io.mycat.mycat2.sqlparser;
 
 import io.mycat.mycat2.sqlparser.SQLParseUtils.HashArray;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.ByteArrayInterface;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.Tokenizer2;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.TokenizerUtil;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * Created by Fanfan on 2017/3/21.
@@ -74,7 +77,7 @@ public class BufferSQLContext {
     public static final byte ANNOTATION_AUTO_REFRESH = 8;
     public static final byte ANNOTATION_CACHE_TIME = 9;
 
-    private short[] tblResult;  //记录格式：[{schema hash array index(defaults 0), tbl hash array index}]
+    private short[] tblResult;  //记录格式：[{schema_tag hash array index(defaults 0), tbl hash array index}]
     private short[] sqlInfoArray;  //用于记录sql索引，用于支持sql批量提交，格式 [{hash array start pos, sql type(15-5 hash array real sql offset, 4-0 sql type), tblResult start pos, tblResult count}]
     private byte totalTblCount;
     private int tblResultPos;
@@ -96,64 +99,19 @@ public class BufferSQLContext {
     private int preHashArrayPos = 0;
     private int preTableResultPos = 0;
     private int hashArrayRealSQLOffset = 0;//记录真实sql开始偏移
+    private Stack<Integer> operandStack = new Stack<>();
 
-    ///////////////////////////
-    public  int                 getSelectBodyStart() {
-        return selectBodyStart;
-    }public void                setSelectBodyStart(int selectBodyStart) {
-        this.selectBodyStart = selectBodyStart;
-    }public int                 getSelectBodyEnd() {
-        return selectBodyEnd;
-    }public void                setSelectBodyEnd(int selectBodyEnd) {
-        this.selectBodyEnd = selectBodyEnd;
-    }public int                 getSelectItemStart() {
-        return selectItemStart;
-    }public void                setSelectItemStart(int selectItemStart) {
-        this.selectItemStart = selectItemStart;
-    }public int                 getSelectItemEnd() {
-        return selectItemEnd;
-    }public void                setSelectItemEnd(int selectItemEnd) {
-        this.selectItemEnd = selectItemEnd;
-    }public int                 getWhereStart() {
-        return whereStart;
-    }public void                setWhereStart(int whereStart) {
-        this.whereStart = whereStart;
-    }public int                 getWhereEnd() {
-        return whereEnd;
-    }public void                setWhereEnd(int whereEnd) {
-        this.whereEnd = whereEnd;
-    }public Stack<String>       getOperandStack() {
-        return operandStack;
-    }public void                setOperandStack(Stack<String> operandStack) {
-        this.operandStack = operandStack;
+    public void push(int pos) {
+        operandStack.push(pos);
     }
 
-    public List<String> getColomnMap() {
-        return colomnMap;
+    public int pop() {
+        return operandStack.pop();
     }
 
-    public  int selectBodyStart;
-    public  int selectBodyEnd;
-    public  int selectItemStart;
-    public  int selectItemEnd;
-    public  int whereStart;
-    public  int whereEnd;
-    Stack<String> operandStack=new Stack<>();
-    List<String> colomnMap=new ArrayList<>();
-    String nodeName="";
-
-    public Map<String,   String> getAsMap() {
-        return asMap;
+    public int peek() {
+        return operandStack.peek();
     }
-
-    public void setAsMap(Map<String, String> asMap) {
-        this.asMap = asMap;
-    }
-
-    Map<String,  String > asMap=new HashMap<>();
-
-
-
 
     public BufferSQLContext() {
         tblResult = new short[tblResultArraySize];
@@ -400,11 +358,69 @@ public class BufferSQLContext {
         return hashArray;
     }
 
-    public String getNodeName() {
-        return nodeName;
+    public boolean matchString(int pos1, BufferSQLContext c, int pos2) {
+        return this.getHashArray().matchString(pos1, this.getBuffer(), c.hashArray, pos2, c.getBuffer());
     }
 
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
+    public boolean matchString(int pos1, byte[] data) {
+        HashArray hashArray = this.getHashArray();
+        int size = hashArray.getSize(pos1);
+        int limit = buffer.length();
+        int datalength=data.length;
+        int resLimit=0;
+        if (size==datalength){
+            if ((resLimit=(datalength+pos1))<limit){
+                for (int i = 0; i <datalength ; i++) {
+                   if(data[i]== buffer.get(pos1)){
+                       continue;
+                   }else {
+                       break;
+                   }
+                }
+            }
+            if (pos1==resLimit){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean matchDigit(int pos1, int data) {
+        return TokenizerUtil.pickNumber(pos1,this.hashArray,buffer)==data;
+    }
+    public int matchPlaceholders(int pos1) {
+        ++pos1;
+        if (hashArray.getType(pos1)== Tokenizer2.DOT){
+            ++pos1;
+            ++pos1;
+        }
+        return pos1;
+    }
+    int[] dynamicAnnotationResultList=new int[128];
+    int dynamicAnnotationResultIndex=0;
+    int longestPos=0;
+    public void setDynamicAnnotationResult(int value) {
+        dynamicAnnotationResultList[dynamicAnnotationResultIndex]=value;
+        ++dynamicAnnotationResultIndex;
+    }
+
+    public int[] getDynamicAnnotationResultList() {
+        return dynamicAnnotationResultList;
+    }
+    public void clearDynamicAnnotationResultList() {
+        dynamicAnnotationResultIndex=0;
+    }
+
+    public int getDynamicAnnotationResultIndex() {
+        return dynamicAnnotationResultIndex;
+    }
+
+    public int getLongestPos() {
+        return longestPos;
+    }
+
+    public void setLongestPos(int longestPos) {
+       if( this.longestPos <longestPos){
+           this.longestPos=longestPos;
+       }
     }
 }

@@ -134,6 +134,9 @@ public class MatchMethodGenerator {
         IntStream.rangeClosed('a', 'z').forEach(c -> shrinkCharTbl[c-'$'] = (byte)(c-'a'+12));
         shrinkCharTbl['_'-'$'] = (byte)38;
     }
+    static {
+        initShrinkCharTbl();
+    }
 
     static void sqlKeyHastTest(String fileName, Function<String, Long> fun, long maskBit) {
         initShrinkCharTbl();
@@ -182,12 +185,16 @@ public class MatchMethodGenerator {
 
         });}
 
-    static long genHash(char[] str) {
+    public static long genHash(char[] str) {
         int seed = 41;
         long hash = 0;
-        for (char c: str) {
-            //BKDRHash
-            hash = hash * seed + shrinkCharTbl[c-'$'];
+        try {
+            for (char c : str) {
+                //BKDRHash
+                hash = hash * seed + shrinkCharTbl[c - '$'];
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return hash;
     }

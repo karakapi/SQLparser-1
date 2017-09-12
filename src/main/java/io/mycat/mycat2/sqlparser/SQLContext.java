@@ -22,8 +22,8 @@ import java.util.Arrays;
  怎样获取mycat命令
  */
 public class SQLContext {
-    private int[] tblResult;  //by kaiz : 记录格式：[{schema index(defaults 0), tbl name start pos, tbl name size}]
-    private int[] schemaResult; //by kaiz : 记录格式：[{schema name pos, schema name size}]
+    private int[] tblResult;  //by kaiz : 记录格式：[{schema_tag index(defaults 0), tbl name start pos, tbl name size}]
+    private int[] schemaResult; //by kaiz : 记录格式：[{schema_tag name pos, schema_tag name size}]
     private byte tblCount;
     private short tblResultPos;
     private short tblResultSize;

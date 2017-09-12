@@ -1,4 +1,4 @@
-package io.mycat.mycat2.sqlparser.byteArrayInterface.expr;
+package io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation;
 
 import io.mycat.mycat2.sqlparser.BufferSQLContext;
 import io.mycat.mycat2.sqlparser.SQLParseUtils.HashArray;
@@ -6,11 +6,12 @@ import io.mycat.mycat2.sqlparser.TokenHash;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.ByteArrayInterface;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.Tokenizer2;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.TokenizerUtil;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.expr.ExprSQLParserHelper;
 
 /**
  * Created by jamie on 2017/9/5.
  */
-public class ExprSQLExer {
+public class DAExprSQLParser {
     /**
      * expr:
      * expr OR expr
@@ -24,7 +25,7 @@ public class ExprSQLExer {
      * | boolean_primary
      */
     public static int pickExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
+      int start=  pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
         int type = hashArray.getType(pos);
         long longHash = hashArray.getHash(pos);
         if (Tokenizer2.OR == type) {
@@ -91,7 +92,7 @@ public class ExprSQLExer {
      * | predicate
      */
     public static int pickBooleanPrimary(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickPredicate(pos, arrayCount, context, hashArray, sql);
+        int start=  pos = pickPredicate(pos, arrayCount, context, hashArray, sql);
         TokenizerUtil.debug(pos, context);
         long longHash = hashArray.getHash(pos);
         if (TokenHash.IS == longHash) {
@@ -162,7 +163,7 @@ public class ExprSQLExer {
      */
 
     public static int pickPredicate(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickBitExpr(pos, arrayCount, context, hashArray, sql);
+        int start=  pos  = pickBitExpr(pos, arrayCount, context, hashArray, sql);
         TokenizerUtil.debug(pos, context);
         long longHash = hashArray.getHash(pos);
 //        if (Tokenizer2.RIGHT_PARENTHESES==hashArray.getType(pos)){
@@ -264,7 +265,7 @@ public class ExprSQLExer {
      * | simple_expr
      */
     public static int pickBitExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-        pos = pickSimpleExpr(pos, arrayCount, context, hashArray, sql);
+        int start=   pos = pickSimpleExpr(pos, arrayCount, context, hashArray, sql);
         int type = hashArray.getType(pos);
         switch (type) {
             case Tokenizer2.OR: {
@@ -371,34 +372,12 @@ public class ExprSQLExer {
     }
 
     public static int pickIdentifierExpr(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-//int start=pos;
-//        TokenizerUtil.debug(pos, context);
-//        ++pos;
-//        int type=hashArray.getType(pos);
-//        if (Tokenizer2.DOT==type){
-//         //   String tableName = sql.getString(pos,hashArray);
-//            ++pos;
-//           // String colomn = sql.getString(pos,hashArray);
-//         //   context.getColomnMap().put(tableName, colomn);
-//            TokenizerUtil.debug(pos, context);
-//            ++pos;
-//        }
-        long longHash = hashArray.getHash(pos);
-        String tableName = "Default";
-        String colomn = sql.getString(pos, hashArray);
         TokenizerUtil.debug(pos, context);
-        int start = pos;
         ++pos;
-        int type = hashArray.getType(pos);
-        if (Tokenizer2.DOT == type) {
+        int type=hashArray.getType(pos);
+        if (Tokenizer2.DOT==type){
             ++pos;
-            tableName = colomn;
-            colomn = sql.getString(pos, hashArray);
-            String value=tableName+"."+colomn;
-            context.getColomnMap().add(value);
-            TokenizerUtil.debug(() -> ".");
             TokenizerUtil.debug(pos, context);
-            ++pos;
         }
         return pos;
     }
@@ -695,8 +674,8 @@ public class ExprSQLExer {
 
     //
 //    public static boolean isWhen(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-//        long longHash = hashArray.getHash(pos);
-//        if (longHash == TokenHash.WHEN) {
+//        long LONG_HASH = hashArray.getHash(pos);
+//        if (LONG_HASH == TokenHash.WHEN) {
 //            return true;
 //        }
 //        return false;
