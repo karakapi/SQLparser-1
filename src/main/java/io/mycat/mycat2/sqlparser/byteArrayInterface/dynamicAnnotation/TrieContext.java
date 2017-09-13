@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by jamie on 2017/9/12.
  */
-public class TriesContext {
+public class TrieContext {
     public List<String> funList = new ArrayList<>();
     public int x = 0;
     public int y = 0;

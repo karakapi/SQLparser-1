@@ -389,10 +389,10 @@ public class BufferSQLContext {
     }
     public int matchPlaceholders(int pos1) {
         ++pos1;
-        if (hashArray.getType(pos1)== Tokenizer2.DOT){
-            ++pos1;
-            ++pos1;
-        }
+//        if (hashArray.getType(pos1)== Tokenizer2.DOT){
+//            ++pos1;
+//            ++pos1;
+//        }
         return pos1;
     }
     int[] dynamicAnnotationResultList=new int[128];

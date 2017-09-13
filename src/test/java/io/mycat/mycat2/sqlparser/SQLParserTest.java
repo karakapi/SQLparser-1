@@ -377,26 +377,26 @@ public class SQLParserTest extends TestCase {
 
     @Test
     public void testSimpleMultiSQL() throws Exception {
-        String sql = "insert tbl_A(id, val) values(1, 2);\n"+
-                "insert tbl_B(id, val) values(2, 2);\n"+
-                "insert tbl_C(id, val) values(3, 2);\n"+
-                "insert tbl_D(id, val) values(4, 2);\n"+
-                "insert tbl_E(id, val) values(5, 2);\n"+
-                "insert tbl_F(id, val) values(6, 2);\n"+
-                "insert tbl_G(id, val) values(7, 2);\n"+
-                "insert tbl_H(id, val) values(8, 2);\n"+
-                "insert tbl_I(id, val) values(9, 2);\n"+
-                "insert tbl_J(id, val) values(10, 2);\n"+
-                "insert tbl_K(id, val) values(11, 2);\n"+
-                "insert tbl_L(id, val) values(12, 2);\n"+
-                "insert tbl_M(id, val) values(13, 2);\n"+
-                "insert tbl_N(id, val) values(14, 2);\n"+
-                "insert tbl_O(id, val) values(15, 2);\n"+
-                "insert tbl_P(id, val) values(16, 2);\n"+
-                "insert tbl_Q(id, val) values(17, 2);\n"+
-                "insert tbl_R(id, val) values(18, 2);\n"+
+        String sql = "INSERT tbl_A(id, val) values(1, 2);\n"+
+                "INSERT tbl_B(id, val) values(2, 2);\n"+
+                "INSERT tbl_C(id, val) values(3, 2);\n"+
+                "INSERT tbl_D(id, val) values(4, 2);\n"+
+                "INSERT tbl_E(id, val) values(5, 2);\n"+
+                "INSERT tbl_F(id, val) values(6, 2);\n"+
+                "INSERT tbl_G(id, val) values(7, 2);\n"+
+                "INSERT tbl_H(id, val) values(8, 2);\n"+
+                "INSERT tbl_I(id, val) values(9, 2);\n"+
+                "INSERT tbl_J(id, val) values(10, 2);\n"+
+                "INSERT tbl_K(id, val) values(11, 2);\n"+
+                "INSERT tbl_L(id, val) values(12, 2);\n"+
+                "INSERT tbl_M(id, val) values(13, 2);\n"+
+                "INSERT tbl_N(id, val) values(14, 2);\n"+
+                "INSERT tbl_O(id, val) values(15, 2);\n"+
+                "INSERT tbl_P(id, val) values(16, 2);\n"+
+                "INSERT tbl_Q(id, val) values(17, 2);\n"+
+                "INSERT tbl_R(id, val) values(18, 2);\n"+
                 "SELECT id, val FROM tbl_S where id=19;\n"+
-                "insert tbl_T(id, val) values(20, 2)";
+                "INSERT tbl_T(id, val) values(20, 2)";
         parser.parse(sql.getBytes(), context);
         assertEquals(20, context.getSQLCount());
         context.setSQLIdx(19);

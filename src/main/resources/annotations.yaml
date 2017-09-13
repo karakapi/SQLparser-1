@@ -5,7 +5,7 @@ annotations:
                       - match:
                              name: aaa
                              state: open
-                             sqltype: insert
+                             sqltype: INSERT
                              where:
                                     - and: id between (1+2) and 100
                                     - or: name = "haha"

@@ -2,7 +2,6 @@ package io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation;
 
 import io.mycat.mycat2.sqlparser.BufferSQLContext;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,11 +12,18 @@ public class DynamicAnnotationRuntime {
     Map<String, Set<String>> map ;//描述条件(包含?)之间的包含关系
     Map<Integer, String> int2str ;//id与条件
     Map<String, Integer> str2Int ;//条件与id
+    DynamicAnnotationMatch match;
+    String codePath;
+    String matchName;
 
     public DynamicAnnotationRuntime(Map<String, Set<String>> map, Map<Integer, String> int2str, Map<String, Integer> str2Int) {
         this.map = map;
         this.int2str = int2str;
         this.str2Int = str2Int;
+    }
+
+    public DynamicAnnotationRuntime() {
+
     }
 
     public Map<String, Set<String>> getMap() {
@@ -53,5 +59,29 @@ public class DynamicAnnotationRuntime {
 
     public void setStr2Int(Map<String, Integer> str2Int) {
         this.str2Int = str2Int;
+    }
+
+    public DynamicAnnotationMatch getMatch() {
+        return match;
+    }
+
+    public void setMatch(DynamicAnnotationMatch match) {
+        this.match = match;
+    }
+
+    public String getCodePath() {
+        return codePath;
+    }
+
+    public void setCodePath(String codePath) {
+        this.codePath = codePath;
+    }
+
+    public String getMatchName() {
+        return matchName;
+    }
+
+    public void setMatchName(String matchName) {
+        this.matchName = matchName;
     }
 }

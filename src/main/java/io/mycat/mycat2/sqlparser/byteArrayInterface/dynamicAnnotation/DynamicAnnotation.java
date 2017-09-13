@@ -1,21 +1,21 @@
 package io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation;
 
-import io.mycat.mycat2.sqlparser.BufferSQLContext;
-import io.mycat.mycat2.sqlparser.SQLParseUtils.HashArray;
-import io.mycat.mycat2.sqlparser.byteArrayInterface.ByteArrayInterface;
-import io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation.pojo.RootBean;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation.pojo.Match;
 import io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation.pojo.Matches;
-import org.yaml.snakeyaml.TypeDescription;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation.pojo.RootBean;
+import io.mycat.mycat2.sqlparser.byteArrayInterface.dynamicAnnotation.pojo.Schema;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by jamie on 2017/9/5.
  */
+
 public class DynamicAnnotation {
   //  AnnotationSchemaList annotations;
     public static final String annotation_list = "annotations";
@@ -30,11 +30,40 @@ public class DynamicAnnotation {
     public static final String match_tables = "tables";
     public static final String match_actions = "actions";
 
-    public static void main(String[] args) throws Exception {
-        Yaml yaml = new Yaml();
-        RootBean object = yaml.loadAs(new FileInputStream(new File("D:\\SQLparserNew\\src\\main\\resources\\annotations.yaml")), RootBean.class);
+  /**
+   * 动态注解先匹配chema的名字,再sql类型，在匹配表名，在匹配条件
+   *
+   * @param sqlType
+   * @return
+   */
+  public Object get(int sqlType, String tableName) {
+    return new Object();
+  }
 
+
+  //动态注解先匹配chema的名字,再sql类型，在匹配表名，在匹配条件
+  public static void main(String[] args) throws Exception {
+    Yaml yaml = new Yaml();
+    RootBean object = yaml.loadAs(new FileInputStream(new File("D:\\SQLparserNew\\src\\main\\resources\\annotations.yaml")), RootBean.class);
+    HashMap<DynamicAnnotationKey, String[]> table = new HashMap<>();
+    Iterator<Schema> iterator = object.getAnnotations().stream().map((s) -> s.getSchema()).iterator();
+    while (iterator.hasNext()) {
+      Schema schema = iterator.next();
+      String schemaName = schema.getName().trim();
+      List<Matches> matchesList = schema.getMatches();
+      for (Matches matche : matchesList) {
+        Match match = matche.getMatch();
+        SQLType type = SQLType.valueOf(match.getSqltype().toUpperCase().trim());
+        DynamicAnnotationKey key = new DynamicAnnotationKey(
+                schemaName,
+                type,
+                match.getTables().toArray(new String[match.getTables().size()]),
+                match.getName());
+        table.put(key, new String[]{key.toString()});
+      }
     }
+  }
+
 
 
 }

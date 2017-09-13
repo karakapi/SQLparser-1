@@ -15,7 +15,7 @@
 //    internal var callback: MutableList<Runnable>? = null
 //
 //    override fun toString(): String {
-//        return "Tries{" +
+//        return "TrieCompiler{" +
 //                "isTrie=" + isTrie +
 //                ", children=" + children +
 //                ", callback=" + callback +
