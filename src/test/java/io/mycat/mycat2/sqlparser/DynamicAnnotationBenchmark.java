@@ -120,6 +120,7 @@ public class DynamicAnnotationBenchmark {
         list.add("x = 1 and y = a.b");
         list.add("y = a.b and a = 1");
         runtime= DynamicAnnotationUtil.compile(list);
+        runtime.setDebug(false);
         match=runtime.getMatch();
         System.out.println("=> init");
     }

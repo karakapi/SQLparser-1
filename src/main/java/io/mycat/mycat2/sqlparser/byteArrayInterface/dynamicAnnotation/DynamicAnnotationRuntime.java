@@ -15,6 +15,7 @@ public class DynamicAnnotationRuntime {
     DynamicAnnotationMatch match;
     String codePath;
     String matchName;
+    boolean isDebug=true;
 
     public DynamicAnnotationRuntime(Map<String, Set<String>> map, Map<Integer, String> int2str, Map<String, Integer> str2Int) {
         this.map = map;
@@ -30,15 +31,17 @@ public class DynamicAnnotationRuntime {
         return map;
     }
     public void printCallBackInfo(BufferSQLContext c) {
-        int[] r= c.getDynamicAnnotationResultList();
-        int size=c.getDynamicAnnotationResultIndex();
-        for (int i = 0; i < size; i++) {
-          Set<String> strings=  map.get(int2str.get(r[i]));
-          for (String it:strings){
-              System.out.println("配对:"+it);
-          }
+        if (isDebug){
+            int[] r= c.getDynamicAnnotationResultList();
+            int size=c.getDynamicAnnotationResultIndex();
+            for (int i = 0; i < size; i++) {
+                Set<String> strings=  map.get(int2str.get(r[i]));
+                for (String it:strings){
+                    System.out.println("配对:"+it);
+                }
+            }
+            c.clearDynamicAnnotationResultList();
         }
-        c.clearDynamicAnnotationResultList();
     }
 
     public void setMap(Map<String, Set<String>> map) {
@@ -83,5 +86,13 @@ public class DynamicAnnotationRuntime {
 
     public void setMatchName(String matchName) {
         this.matchName = matchName;
+    }
+
+    public boolean isDebug() {
+        return isDebug;
+    }
+
+    public void setDebug(boolean debug) {
+        isDebug = debug;
     }
 }
