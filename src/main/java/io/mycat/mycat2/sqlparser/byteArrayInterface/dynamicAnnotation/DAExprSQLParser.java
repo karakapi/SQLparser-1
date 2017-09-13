@@ -57,7 +57,7 @@ public class DAExprSQLParser {
                 ++pos;
                 return pickExpr(pos, arrayCount, context, hashArray, sql);
             }
-            //  pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
+            //  backPos = pickBooleanPrimary(backPos, arrayCount, context, hashArray, sql);
             longHash = hashArray.getHash(pos);
             if (longHash == TokenHash.IS) {
                 TokenizerUtil.debug(()->"IS");
@@ -75,7 +75,7 @@ public class DAExprSQLParser {
                 //语法错误
             } else {
                 //todo boolean_primary
-                //  pos = pickBooleanPrimary(pos, arrayCount, context, hashArray, sql);
+                //  backPos = pickBooleanPrimary(backPos, arrayCount, context, hashArray, sql);
             }
             //语法错误
         }
@@ -166,8 +166,8 @@ public class DAExprSQLParser {
         int start=  pos  = pickBitExpr(pos, arrayCount, context, hashArray, sql);
         TokenizerUtil.debug(pos, context);
         long longHash = hashArray.getHash(pos);
-//        if (Tokenizer2.RIGHT_PARENTHESES==hashArray.getType(pos)){
-//            ++pos;
+//        if (Tokenizer2.RIGHT_PARENTHESES==hashArray.getType(backPos)){
+//            ++backPos;
 //        }
         if (TokenHash.SOUNDS == longHash) {
             longHash = hashArray.getHash(++pos);
@@ -577,7 +577,7 @@ public class DAExprSQLParser {
 
                 //identifier expr
                 //  TokenizerUtil.debug(()->"identifier expr");
-                //  pos=pickExpr(pos, arrayCount, context, hashArray, sql);
+                //  backPos=pickExpr(backPos, arrayCount, context, hashArray, sql);
                 return pos;
                 //语法错误
             }
@@ -673,8 +673,8 @@ public class DAExprSQLParser {
     }
 
     //
-//    public static boolean isWhen(int pos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
-//        long LONG_HASH = hashArray.getHash(pos);
+//    public static boolean isWhen(int backPos, final int arrayCount, BufferSQLContext context, HashArray hashArray, ByteArrayInterface sql) {
+//        long LONG_HASH = hashArray.getHash(backPos);
 //        if (LONG_HASH == TokenHash.WHEN) {
 //            return true;
 //        }

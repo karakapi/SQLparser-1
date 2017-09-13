@@ -24,20 +24,25 @@ public class DynamicAnnotationTest extends TestCase {
 //    }
     @Test
     public void test1() throws Exception {
-        String t = "aaaaa b = 1 and c = 1 and d = 1";
+        String t = "b = 1 and c = 1 and d = 1 and c = 1";
+        test(t);
+    }
+    @Test
+    public void test2() throws Exception {
+        String t = "x = 1 and y = a.b and a = 1";
         test(t);
     }
 
-    public static void insert(String str, Tries tries, String mark) {
+    public static void insert(String str, Tries tries, String mark, int backPos) {
         BufferSQLParser parser = new BufferSQLParser();
         BufferSQLContext context = new BufferSQLContext();
         parser.parse(str.getBytes(), context);
         HashArray hashArray = context.getHashArray();
-        Tries.insertNode(context, tries, mark);
+        Tries.insertNode(context, tries, mark, backPos);
     }
 
     public static void insert(String str, Tries tries) {
-        insert(str, tries, str);
+        insert(str, tries, str, 0);
     }
     DynamicAnnotationRuntime runtime;
     //    SQLParser parser;
@@ -77,33 +82,67 @@ public class DynamicAnnotationTest extends TestCase {
         list.add("b = 1 and c = 1 and d = 1");
         list.add("c = ? and d = ?");
         list.add("? = ? and c = ? and d = ?");
+        list.add("? = ?");
+        list.add("c = ?");
+        list.add("d = 1 and c = 1");
+        list.add("d = ? and c = 1");
+        list.add("a = ? and c = 1");
+        list.add("f = 2 and a = b.d");
+        list.add("x = ? and y = ?");
+        list.add("y = a.b and a = 1");
+
         Map<String, Set<String>> map = new HashMap<>();
+        Map<String, Integer> posMap = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 String q = list.get(i);
                 String w = list.get(j);
-                if (q.length() <= w.length()) {
-                    if (q.contains("?")) {
-                        if (isIn(q, w)) {
-                            map.compute(w, (s, l) -> {
-                                if (l == null) {
-                                    Set<String> list1 = new HashSet<>();
-                                    list1.add(s);
-                                    list1.add(q);
-                                    return list1;
-                                } else {
-                                    l.add(q);
-                                    return l;
-                                }
-                            });
+                //算回文
+                if (!q.equals(w)) {
+                    String[] la = q.split(" ");
+                    String[] lr = w.split(" ");
+                    int pos = 0;//偏移量
+                    for (int k = la.length - 1, l = 0; k < la.length && k > -1 && l < lr.length; ) {
+                        if (!la[k].equals(lr[l])) {
+                            k--;
                             continue;
+                        } else {
+                            k++;
+                            l++;
+                            pos++;
                         }
                     }
+                    if (pos != 0) {
+                        posMap.put(q, pos);
+                        System.out.println("成功呢");
+                    }
+
+
+                    if (q.length() <= w.length()) {
+                        //计算?子模式
+                        if (q.contains("?")) {
+                            if (isIn(q, w)) {
+                                map.compute(w, (s, l) -> {
+                                    if (l == null) {
+                                        Set<String> list1 = new HashSet<>();
+                                        list1.add(s);
+                                        list1.add(q);
+                                        return list1;
+                                    } else {
+                                        l.add(q);
+                                        return l;
+                                    }
+                                });
+                                continue;
+                            }
+                        }
+
+                    }
+                    Set<String> set = new HashSet<>();
+                    set.add(w);
+                    map.computeIfAbsent(w, (s) -> set);
+                    continue;
                 }
-                Set<String> set = new HashSet<>();
-                set.add(w);
-                map.computeIfAbsent(w, (s) -> set);
-                continue;
             }
         }
         Map<Integer, String> int2str = new HashMap<>();
@@ -116,7 +155,7 @@ public class DynamicAnnotationTest extends TestCase {
         }
         Tries tries = new Tries();
         for (Map.Entry<String,Integer> i:str2Int.entrySet()){
-            insert(i.getKey(), tries,i.getValue().toString());
+            insert(i.getKey(), tries, i.getValue().toString(), posMap.get(i.getKey()));
         }
         runtime=new DynamicAnnotationRuntime(map,int2str,str2Int);
     }
@@ -133,33 +172,64 @@ public class DynamicAnnotationTest extends TestCase {
         list.add("b = 1 and c = 1 and d = 1");
         list.add("c = ? and d = ?");
         list.add("? = ? and c = ? and d = ?");
+        list.add("? = ?");
+        list.add("c = ?");
+        list.add("d = 1 and c = 1");
+        list.add("d = ? and c = 1");
+        list.add("a = ? and c = 1");
+        list.add("f = 2 and a = b.d");
+        list.add("x = ? and y = ?");
+        list.add("y = a.b and a = 1");
         Map<String, Set<String>> map = new HashMap<>();
+        Map<String, Integer> posMap = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 String q = list.get(i);
                 String w = list.get(j);
-                if (q.length() <= w.length()) {
-                    if (q.contains("?")) {
-                        if (isIn(q, w)) {
-                            map.compute(w, (s, l) -> {
-                                if (l == null) {
-                                    Set<String> list1 = new HashSet<>();
-                                    list1.add(s);
-                                    list1.add(q);
-                                    return list1;
-                                } else {
-                                    l.add(q);
-                                    return l;
-                                }
-                            });
+                //算回文
+                if (!q.equals(w)) {
+                    String[] la = q.split(" ");
+                    String[] lr = w.split(" ");
+                    int pos = 0;//偏移量
+                    for (int k = la.length - 1, l = 0; k < la.length && k > -1 && l < lr.length; ) {
+                        if (!la[k].equals(lr[l])) {
+                            k--;
                             continue;
+                        } else {
+                            k++;
+                            l++;
+                            pos++;
                         }
                     }
+                    posMap.put(q, pos);
+                    System.out.println("成功呢");
+
+
+                    if (q.length() <= w.length()) {
+                        //计算?子模式
+                        if (q.contains("?")) {
+                            if (isIn(q, w)) {
+                                map.compute(w, (s, l) -> {
+                                    if (l == null) {
+                                        Set<String> list1 = new HashSet<>();
+                                        list1.add(s);
+                                        list1.add(q);
+                                        return list1;
+                                    } else {
+                                        l.add(q);
+                                        return l;
+                                    }
+                                });
+                                continue;
+                            }
+                        }
+
+                    }
+                    Set<String> set = new HashSet<>();
+                    set.add(w);
+                    map.computeIfAbsent(w, (s) -> set);
+                    continue;
                 }
-                Set<String> set = new HashSet<>();
-                set.add(w);
-                map.computeIfAbsent(w, (s) -> set);
-                continue;
             }
         }
         Map<Integer, String> int2str = new HashMap<>();
@@ -172,7 +242,7 @@ public class DynamicAnnotationTest extends TestCase {
         }
         Tries tries = new Tries();
        for (Map.Entry<String,Integer> i:str2Int.entrySet()){
-           insert(i.getKey(), tries,i.getValue().toString());
+           insert(i.getKey(), tries, i.getValue().toString(), posMap.get(i.getKey()));
        }
         TriesContext context = new TriesContext();
         System.out.println(tries.toCode2(true, context));

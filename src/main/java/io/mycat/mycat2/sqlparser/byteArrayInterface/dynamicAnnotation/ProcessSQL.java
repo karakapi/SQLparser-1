@@ -10,249 +10,49 @@ import io.mycat.mycat2.sqlparser.byteArrayInterface.ByteArrayInterface;
 public class ProcessSQL {
     public static void pick(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
         while (i < arrayCount) {
-            _QUESTIONMARK_1_0_11(i, arrayCount, context, array, sql);
-            int res = _c_b_1_0_29(i, arrayCount, context, array, sql);
-            if (res == i) {
-                ++i;
-            } else {
-                i = res;
-            }
+            i=_c_d_a_b_x_f_y_1_0_62(i, arrayCount, context, array, sql);i=_QUESTIONMARK_1_0_73(i, arrayCount, context, array, sql);
+
+//            if (res == i) {
+//                ++i;
+//            } else {
+//                i = res;
+//            }
         }
     }
-
-    public static final int _QUESTIONMARK_11_11_11_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            {
-                i = context.matchPlaceholders(i);
-                context.setDynamicAnnotationResult(2);
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_11_10_11(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        _QUESTIONMARK_11_11_11_quest(i, arrayCount, context, array, sql);
-        return i;
-    }
-
-    public static final int _d_9_8_11(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (15L == array.getHash(i)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (14L == array.getType(i)) {
-                        ++i;
-                        _QUESTIONMARK_11_10_11(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_7_7_11_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            {
-                i = context.matchPlaceholders(i);
-                if ((i) < arrayCount) {
-                    if (21212L == array.getHash(i)) {
-                        ++i;
-                        i = _d_9_8_11(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _EQUAL_6_5_11(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (14L == array.getType(i)) {
-                ++i;
-                _QUESTIONMARK_7_7_11_quest(i, arrayCount, context, array, sql);
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_3_3_11_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            {
-                i = context.matchPlaceholders(i);
-                if ((i) < arrayCount) {
-                    if (21212L == array.getHash(i)) {
-                        ++i;
-                        if ((i) < arrayCount) {
-                            if (14L == array.getHash(i)) {
-                                ++i;
-                                i = _EQUAL_6_5_11(i, arrayCount, context, array, sql);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_3_2_11(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        _QUESTIONMARK_3_3_11_quest(i, arrayCount, context, array, sql);
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_1_1_11_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        {
-            {
-                i = context.matchPlaceholders(i);
-                if ((i) < arrayCount) {
-                    if (14L == array.getType(i)) {
-                        ++i;
-                        _QUESTIONMARK_3_2_11(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_1_0_11(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        _QUESTIONMARK_1_1_11_quest(i, arrayCount, context, array, sql);
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_7_7_18_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            {
-                i = context.matchPlaceholders(i);
-                context.setDynamicAnnotationResult(1);
-            }
-        }
-        return i;
-    }
-
-    public static final int _EQUAL_6_5_18(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (14L == array.getType(i)) {
-                ++i;
-                _QUESTIONMARK_7_7_18_quest(i, arrayCount, context, array, sql);
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_3_3_18_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            {
-                i = context.matchPlaceholders(i);
-                if ((i) < arrayCount) {
-                    if (21212L == array.getHash(i)) {
-                        ++i;
-                        if ((i) < arrayCount) {
-                            if (15L == array.getHash(i)) {
-                                ++i;
-                                i = _EQUAL_6_5_18(i, arrayCount, context, array, sql);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _QUESTIONMARK_3_2_18(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        _QUESTIONMARK_3_3_18_quest(i, arrayCount, context, array, sql);
-        return i;
-    }
-
-    public static final int _ONE_11_10_29(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (context.matchDigit(i, 1)) {
-                ++i;
-                context.setDynamicAnnotationResult(3);
-            }
-        }
-        return i;
-    }
-
-    public static final int _d_9_8_29(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (15L == array.getHash(i)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (14L == array.getType(i)) {
-                        ++i;
-                        i = _ONE_11_10_29(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _EQUAL_6_5_29(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (14L == array.getType(i)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (context.matchDigit(i, 1)) {
-                        ++i;
-                        if ((i) < arrayCount) {
-                            if (21212L == array.getHash(i)) {
-                                ++i;
-                                i = _d_9_8_29(i, arrayCount, context, array, sql);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _ONE_3_2_29(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        if ((i) < arrayCount) {
-            if (context.matchDigit(i, 1)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (21212L == array.getHash(i)) {
-                        ++i;
-                        if ((i) < arrayCount) {
-                            if (14L == array.getHash(i)) {
-                                ++i;
-                                i = _EQUAL_6_5_29(i, arrayCount, context, array, sql);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return i;
-    }
-
-    public static final int _c_b_1_0_29(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql) {
-        {
-            if (14L == array.getHash(i)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (14L == array.getType(i)) {
-                        ++i;
-                        _QUESTIONMARK_3_2_18(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        {
-            if (13L == array.getHash(i)) {
-                ++i;
-                if ((i) < arrayCount) {
-                    if (14L == array.getType(i)) {
-                        ++i;
-                        i = _ONE_3_2_29(i, arrayCount, context, array, sql);
-                    }
-                }
-            }
-        }
-        return i;
-    }
+    public static final int _QUESTIONMARK_7_7_7_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);context.setDynamicAnnotationResult(5);}}return i;}
+    public static final int _EQUAL_6_5_7(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_7_7_7_quest(i, arrayCount, context, array, sql);}}return i;}
+    public static final int _QUESTIONMARK_3_3_7_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);context.setDynamicAnnotationResult(10);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(15L==array.getHash(i)){++i;i=_EQUAL_6_5_7(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_3_2_7(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_3_3_7_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _EQUAL_6_5_14(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;context.setDynamicAnnotationResult(4);}}}}return i;}
+    public static final int _ONE_3_2_14(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getHash(i)){++i;i=_EQUAL_6_5_14(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _EQUAL_6_5_19(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;context.setDynamicAnnotationResult(3);}}}}return i;}
+    public static final int _QUESTIONMARK_3_3_19_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getHash(i)){++i;i=_EQUAL_6_5_19(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_3_2_19(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_3_3_19_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _EQUAL_6_5_26(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;context.setDynamicAnnotationResult(11);}}}}return i;}
+    public static final int _QUESTIONMARK_3_3_26_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getHash(i)){++i;i=_EQUAL_6_5_26(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_3_2_26(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_3_3_26_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _ONE_11_10_37(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;context.setDynamicAnnotationResult(8);}}return i;}
+    public static final int _d_9_8_37(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(15L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_ONE_11_10_37(i, arrayCount, context, array, sql);}}}}return i;}
+    public static final int _EQUAL_6_5_37(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;i=_d_9_8_37(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _ONE_3_2_37(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getHash(i)){++i;i=_EQUAL_6_5_37(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_7_7_44_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);context.setDynamicAnnotationResult(6);pick(i-1-2, arrayCount, context, array, sql);}}return i;}
+    public static final int _EQUAL_6_5_44(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_7_7_44_quest(i, arrayCount, context, array, sql);}}return i;}
+    public static final int _QUESTIONMARK_3_3_44_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(36L==array.getHash(i)){++i;i=_EQUAL_6_5_44(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_3_2_44(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_3_3_44_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _d_9_8_53(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(15L==array.getHash(i)){++i;context.setDynamicAnnotationResult(1);}}return i;}
+    public static final int _EQUAL_6_5_53(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;if ((i)<arrayCount){if(13L==array.getHash(i)){++i;if ((i)<arrayCount){if(18L==array.getType(i)){++i;i=_d_9_8_53(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _TWO_3_2_53(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(context.matchDigit(i,2)){++i;if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(12L==array.getHash(i)){++i;i=_EQUAL_6_5_53(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _ONE_9_8_62(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(context.matchDigit(i,1)){++i;context.setDynamicAnnotationResult(2);}}return i;}
+    public static final int _and_6_5_62(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(12L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_ONE_9_8_62(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _a_3_2_62(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(12L==array.getHash(i)){++i;if ((i)<arrayCount){if(18L==array.getType(i)){++i;if ((i)<arrayCount){if(13L==array.getHash(i)){++i;i=_and_6_5_62(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _c_d_a_b_x_f_y_1_0_62(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){{if(14L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_3_2_7(i, arrayCount, context, array, sql);}}}}{if(15L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_ONE_3_2_14(i, arrayCount, context, array, sql);i=_QUESTIONMARK_3_2_19(i, arrayCount, context, array, sql);}}}}{if(12L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_3_2_26(i, arrayCount, context, array, sql);}}}}{if(13L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_ONE_3_2_37(i, arrayCount, context, array, sql);}}}}{if(35L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_3_2_44(i, arrayCount, context, array, sql);}}}}{if(17L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_TWO_3_2_53(i, arrayCount, context, array, sql);}}}}{if(36L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_a_3_2_62(i, arrayCount, context, array, sql);}}}}return i;}
+    public static final int _QUESTIONMARK_11_11_73_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);context.setDynamicAnnotationResult(7);}}return i;}
+    public static final int _QUESTIONMARK_11_10_73(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_11_11_73_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _d_9_8_73(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(15L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_11_10_73(i, arrayCount, context, array, sql);}}}}return i;}
+    public static final int _QUESTIONMARK_7_7_73_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;i=_d_9_8_73(i, arrayCount, context, array, sql);}}}}return i;}
+    public static final int _EQUAL_6_5_73(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_7_7_73_quest(i, arrayCount, context, array, sql);}}return i;}
+    public static final int _QUESTIONMARK_3_3_73_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){if ((i)<arrayCount){{i=context.matchPlaceholders(i);context.setDynamicAnnotationResult(9);if ((i)<arrayCount){if(21212L==array.getHash(i)){++i;if ((i)<arrayCount){if(14L==array.getHash(i)){++i;i=_EQUAL_6_5_73(i, arrayCount, context, array, sql);}}}}}}return i;}
+    public static final int _QUESTIONMARK_3_2_73(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_3_3_73_quest(i, arrayCount, context, array, sql);return i;}
+    public static final int _QUESTIONMARK_1_1_73_quest(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){{{i=context.matchPlaceholders(i);if ((i)<arrayCount){if(14L==array.getType(i)){++i;i=_QUESTIONMARK_3_2_73(i, arrayCount, context, array, sql);}}}}return i;}
+    public static final int _QUESTIONMARK_1_0_73(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){i=_QUESTIONMARK_1_1_73_quest(i, arrayCount, context, array, sql);return i;}
 }

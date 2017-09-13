@@ -13,8 +13,9 @@ public class Tries {
     boolean isTrie;
     HashMap<Key, Tries> children = new HashMap<>();
     List<String> callback;
+    int backPos =0;
 
-    public static boolean insertNode(BufferSQLContext context, Tries head, String runnable) {
+    public static boolean insertNode(BufferSQLContext context, Tries head, String runnable,int backPos) {
         HashArray array = context.getHashArray();
         ByteArrayInterface byteArray = context.getBuffer();
         if (array == null || array.getCount() == 0)
@@ -35,6 +36,7 @@ public class Tries {
             //否则复用该节点
             cur = cur.children.get(c);
             if (cur.isTrie == true) {
+                cur.backPos=backPos;
                 doCallback(cur, runnable);
                 System.out.println(" trie tree");
                 return true;
@@ -44,11 +46,13 @@ public class Tries {
         }
         cur.isTrie = true;
         if (cur.children.size() > 0) {
+            cur.backPos=backPos;
             doCallback(cur, runnable);
             System.out.println(" trie tree");
             return true;
             //判断当前字符串是否是前缀树中某个字符的前缀。
         }
+        cur.backPos=backPos;
         doCallback(cur, runnable);
         return false;
     }
@@ -76,8 +80,8 @@ public class Tries {
     public String toCode2(boolean isRoot, TriesContext context) {
         context.x += 1;
         Map<Boolean, List<Map.Entry<Key, Tries>>> map = this.children.entrySet().stream().collect(Collectors.partitioningBy((k) -> k.getKey().getType() == Tokenizer2.QUESTION_MARK));
-        String l = toCode3(isRoot, map.get(Boolean.TRUE), context);
-        String r = toCode3(isRoot, map.get(Boolean.FALSE), context);
+        String l = toCode3(isRoot, map.get(Boolean.FALSE), context);
+        String r = toCode3(isRoot, map.get(Boolean.TRUE), context);
         context.x -= 1;
         return l + r;
     }
@@ -89,11 +93,9 @@ public class Tries {
             if (!"".equals(res.trim())) {
                 String funName = context.genFun(entrySet.stream().map((s) -> Ascll.shiftAscll(s.getKey().getText(), false)).collect(Collectors.joining("_"))) + "_" + context.index;
                 context.funList.add("public static final int " + funName + "(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){" + res + "return i;}");
-                if (funName.contains("QUESTIONMARK")) {
-                    return "" + funName + "(i, arrayCount, context, array, sql);";
-                } else {
+
                     return "i=" + funName + "(i, arrayCount, context, array, sql);";
-                }
+
 
             }
             return "";
@@ -136,6 +138,11 @@ public class Tries {
                 for (int j = 0; j <callback.size() ; j++) {
                     w += "context.setDynamicAnnotationResult("+callback.get(j)+");";
                 }
+                if (i.getValue().backPos!=0){
+                    w+="pick(i-1-" +i.getValue().backPos+
+                            ", arrayCount, context, array, sql);";
+                }
+
             }
             String e = i.getValue().toCode2(false, context);
             String r = "}}";
@@ -145,7 +152,7 @@ public class Tries {
                 funName += "_quest";
                 context.funList.add("public static final int " + funName + "(int i, final int arrayCount, BufferSQLContext context, HashArray array, ByteArrayInterface sql){" + stringBuilder.toString() + "return i;}");
                 stringBuilder.setLength(0);
-                stringBuilder.append("" + funName + "(i, arrayCount, context, array, sql);");
+                stringBuilder.append("i=" + funName + "(i, arrayCount, context, array, sql);");
             }
         }
         context.y -= 1;
